@@ -1,4 +1,5 @@
-$(function feedback() {
+/* eslint-disable no-undef */
+$(() => {
     /**
      * Updates the DOM
      * @param {*} data XHR result
@@ -9,11 +10,11 @@ $(function feedback() {
       $('.feedback-status').empty();
   
       // All went well
-      if (!data.errors && data.feedback) {
+      if (!data.errors && data.feedbacks) {
         // The input was valid - reset the form
         $('.feedback-form').trigger('reset');
   
-        $.each(data.feedback, function createHtml(key, item) {
+        $.each(data.feedbacks, (_key, item) => {
           render.push(`
           <div class="feedback-item item-list media-list">
             <div class="feedback-item media">
@@ -37,7 +38,7 @@ $(function feedback() {
       } else {
         // There was an error
         // Create a list of errors
-        $.each(data.errors, function createHtml(key, error) {
+        $.each(data.errors, (_key, error) => {
           render.push(`
           <li>${error.msg}</li>
         `);
@@ -52,13 +53,13 @@ $(function feedback() {
     /**
      * Attaches to the form and sends the data to our REST endpoint
      */
-    $('.feedback-form').submit(function submitFeedback(e) {
+    $('.feedback-form').submit((e) => {
       // Prevent the default submit form event
       e.preventDefault();
   
       // XHR POST request
       $.post(
-        '/feedback/api',
+        '/feedbacks/api',
         // Gather all data from the form and create a JSON object from it
         {
           name: $('#feedback-form-name').val(),
